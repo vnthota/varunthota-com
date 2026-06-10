@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import GridBackground from "./components/GridBackground";
 
 function LinkedInIcon() {
   return (
@@ -42,89 +43,99 @@ export default function Page() {
   }
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center px-6 py-16">
-      <div className="flex flex-col items-center text-center gap-5 w-full max-w-md">
-        <h1 className="font-serif font-light text-[clamp(3rem,10vw,7rem)] leading-none tracking-tight text-ink">
-          Varun Thota
-        </h1>
+    <>
+      <GridBackground />
 
-        <p className="font-sans text-muted text-sm tracking-[0.18em] uppercase">
-          Product Design&nbsp;&nbsp;·&nbsp;&nbsp;Photography
-        </p>
+      <main className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-16">
+        <div className="flex flex-col items-center text-center gap-5 w-full max-w-md">
+          <h1 className="font-serif font-light text-[clamp(3rem,10vw,7rem)] leading-none tracking-tight text-ink">
+            Varun Thota
+          </h1>
 
-        <span className="font-sans text-xs tracking-[0.22em] uppercase" style={{ color: "color-mix(in srgb, #888884 60%, transparent)" }}>
-          Coming soon
-        </span>
-
-        <div className="flex gap-5 mt-1">
-          <a
-            href="https://www.linkedin.com/in/vnthota/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-muted hover:text-ink transition-colors p-2 -m-2"
-          >
-            <LinkedInIcon />
-          </a>
-          <a
-            href="https://www.instagram.com/vnthota"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram"
-            className="text-muted hover:text-ink transition-colors p-2 -m-2"
-          >
-            <InstagramIcon />
-          </a>
-        </div>
-
-        <div className="w-full mt-6 text-left">
-          <p className="font-sans text-muted text-xs tracking-[0.18em] uppercase mb-4 text-center">
-            Get in touch
+          <p className="font-sans text-muted text-sm tracking-[0.18em] uppercase">
+            Product Design&nbsp;&nbsp;·&nbsp;&nbsp;Photography
           </p>
 
-          {status === "success" ? (
-            <p className="font-sans text-sm text-muted text-center">
-              Thanks — I&apos;ll be in touch.
+          <span
+            className="font-sans text-xs tracking-[0.22em] uppercase"
+            style={{ color: "color-mix(in srgb, var(--color-muted) 65%, transparent)" }}
+          >
+            Coming soon
+          </span>
+
+          <div className="flex gap-5 mt-1">
+            <a
+              href="https://www.linkedin.com/in/vnthota/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="text-muted hover:text-ink transition-colors p-2 -m-2"
+            >
+              <LinkedInIcon />
+            </a>
+            <a
+              href="https://www.instagram.com/vnthota"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="text-muted hover:text-ink transition-colors p-2 -m-2"
+            >
+              <InstagramIcon />
+            </a>
+          </div>
+
+          <div className="w-full mt-6 text-left">
+            <p className="font-sans text-muted text-xs tracking-[0.18em] uppercase mb-4 text-center">
+              Get in touch
             </p>
-          ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input
-                name="name"
-                type="text"
-                placeholder="Name"
-                required
-                className="font-sans text-sm text-ink bg-transparent border border-muted/30 rounded px-4 py-3 placeholder:text-muted/50 focus:outline-none focus:border-muted w-full"
-              />
-              <input
-                name="email"
-                type="email"
-                placeholder="Email"
-                required
-                className="font-sans text-sm text-ink bg-transparent border border-muted/30 rounded px-4 py-3 placeholder:text-muted/50 focus:outline-none focus:border-muted w-full"
-              />
-              <textarea
-                name="message"
-                placeholder="Message"
-                required
-                rows={4}
-                className="font-sans text-sm text-ink bg-transparent border border-muted/30 rounded px-4 py-3 placeholder:text-muted/50 focus:outline-none focus:border-muted w-full resize-none"
-              />
-              <button
-                type="submit"
-                disabled={status === "loading"}
-                className="font-sans text-xs tracking-[0.18em] uppercase text-muted border border-muted/30 rounded px-6 py-3 hover:border-muted hover:text-ink transition-colors disabled:opacity-40 w-full cursor-pointer"
-              >
-                {status === "loading" ? "Sending…" : "Send"}
-              </button>
-              {status === "error" && (
-                <p className="font-sans text-xs text-center" style={{ color: "color-mix(in srgb, #888884 60%, transparent)" }}>
-                  Something went wrong — try again.
-                </p>
-              )}
-            </form>
-          )}
+
+            {status === "success" ? (
+              <p className="font-sans text-sm text-muted text-center">
+                Thanks — I&apos;ll be in touch.
+              </p>
+            ) : (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Name"
+                  required
+                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full"
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Email"
+                  required
+                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full"
+                />
+                <textarea
+                  name="message"
+                  placeholder="Message"
+                  required
+                  rows={4}
+                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full resize-none"
+                />
+                <button
+                  type="submit"
+                  disabled={status === "loading"}
+                  className="font-sans text-xs tracking-[0.18em] uppercase text-muted border border-muted/30 rounded px-6 py-3 hover:border-muted hover:text-ink transition-colors disabled:opacity-40 w-full cursor-pointer"
+                >
+                  {status === "loading" ? "Sending…" : "Send"}
+                </button>
+                {status === "error" && (
+                  <p
+                    className="font-sans text-xs text-center"
+                    style={{ color: "color-mix(in srgb, var(--color-muted) 65%, transparent)" }}
+                  >
+                    Something went wrong — try again.
+                  </p>
+                )}
+              </form>
+            )}
+          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 }

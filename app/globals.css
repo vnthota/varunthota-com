@@ -3,12 +3,168 @@
 @theme {
   --font-serif: var(--font-cormorant), Georgia, serif;
   --font-sans: var(--font-dm-sans), system-ui, sans-serif;
-  --color-ink: #111110;
-  --color-muted: #888884;
-  --color-bg: #FAFAF8;
+  --font-script: var(--font-caveat), "Comic Sans MS", cursive;
+
+  --color-ink: #1b2a3a;
+  --color-muted: #6b7686;
+  --color-bg: #dce3ec;
+  --color-coral: #f1614a;
+  --color-navy: #1b2a3a;
+  --color-line: rgba(27, 42, 58, 0.1);
 }
 
 html {
   background-color: var(--color-bg);
   color: var(--color-ink);
+}
+
+/* ===================== Sketch grid background ===================== */
+/* Tunables live here: --floor-tilt controls the perspective rake. */
+
+.grid-scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  perspective: 1100px;
+  perspective-origin: 50% 30%;
+}
+
+.grid-plane {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 220vw;
+  height: 180vh;
+  margin-left: -110vw;
+  margin-top: -92vh;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--floor-tilt, 50deg)) rotateZ(calc(var(--mx, 0) * 1.1deg));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(14px, 2.2vw, 28px);
+}
+
+.grid-row {
+  display: flex;
+  gap: clamp(14px, 2.2vw, 28px);
+  transform: translate3d(
+    calc(var(--mx, 0) * var(--depth, 0.5) * 44px),
+    calc(var(--my, 0) * var(--depth, 0.5) * 44px),
+    0
+  );
+  will-change: transform;
+}
+
+.grid-tile {
+  --r: 0deg;
+  flex: none;
+  width: clamp(54px, 8vw, 94px);
+  height: clamp(54px, 8vw, 94px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  transform: rotate(var(--r));
+  overflow: hidden;
+}
+
+.grid-tile--light {
+  background: #eaeef4;
+  border: 1.5px solid var(--color-line);
+  color: var(--color-navy);
+}
+
+.grid-tile--navy {
+  background: var(--color-navy);
+  color: var(--color-coral);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.06) 0 2px,
+    transparent 2px 7px
+  );
+}
+
+.grid-tile--coral {
+  background: var(--color-coral);
+  color: #fff;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.07) 0 2px,
+    transparent 2px 7px
+  );
+}
+
+.grid-tile--empty {
+  background: transparent;
+  border: none;
+}
+
+.grid-tile__label {
+  font-family: var(--font-script);
+  font-weight: 700;
+  font-size: clamp(12px, 1.5vw, 19px);
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 5px;
+  word-break: break-word;
+}
+
+.grid-tile svg {
+  width: 48%;
+  height: 48%;
+}
+
+/* Calm readable pool behind centered content + edge fades */
+.grid-fade {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse 46% 62% at 50% 50%,
+      rgba(220, 227, 236, 0.94) 34%,
+      rgba(220, 227, 236, 0) 74%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(220, 227, 236, 0.9) 0%,
+      rgba(220, 227, 236, 0) 22%,
+      rgba(220, 227, 236, 0) 80%,
+      rgba(220, 227, 236, 0.96) 100%
+    );
+}
+
+/* Narrow screens: widen the calm pool so the grid doesn't crowd the form */
+@media (max-width: 640px) {
+  .grid-fade {
+    background:
+      radial-gradient(
+        ellipse 90% 56% at 50% 53%,
+        rgba(220, 227, 236, 0.95) 42%,
+        rgba(220, 227, 236, 0) 78%
+      ),
+      linear-gradient(
+        to bottom,
+        rgba(220, 227, 236, 0.9) 0%,
+        rgba(220, 227, 236, 0) 24%,
+        rgba(220, 227, 236, 0) 78%,
+        rgba(220, 227, 236, 0.97) 100%
+      );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grid-plane {
+    transform: rotateX(var(--floor-tilt, 50deg));
+  }
+  .grid-row {
+    transform: none;
+  }
 }
