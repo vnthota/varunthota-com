@@ -6,7 +6,7 @@
   --font-script: var(--font-caveat), "Comic Sans MS", cursive;
 
   --color-ink: #1b2a3a;
-  --color-muted: #6b7686;
+  --color-muted: #515b6b; /* darkened for WCAG AA on the light bg */
   --color-bg: #dce3ec;
   --color-coral: #f1614a;
   --color-navy: #1b2a3a;
@@ -19,7 +19,7 @@ html {
 }
 
 /* ===================== Sketch grid background ===================== */
-/* Tunables live here: --floor-tilt controls the perspective rake. */
+/* Flat, head-on field of tiles that gently drifts with the pointer. */
 
 .grid-scene {
   position: fixed;
@@ -27,36 +27,23 @@ html {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  perspective: 1100px;
-  perspective-origin: 50% 30%;
 }
 
 .grid-plane {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 220vw;
-  height: 180vh;
-  margin-left: -110vw;
-  margin-top: -92vh;
-  transform-style: preserve-3d;
-  transform: rotateX(var(--floor-tilt, 50deg)) rotateZ(calc(var(--mx, 0) * 1.1deg));
+  inset: -6%; /* overscan so drift never reveals an edge */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: clamp(14px, 2.2vw, 28px);
+  gap: clamp(12px, 1.8vw, 22px);
+  transform: translate3d(calc(var(--mx, 0) * 18px), calc(var(--my, 0) * 18px), 0);
+  will-change: transform;
 }
 
 .grid-row {
   display: flex;
-  gap: clamp(14px, 2.2vw, 28px);
-  transform: translate3d(
-    calc(var(--mx, 0) * var(--depth, 0.5) * 44px),
-    calc(var(--my, 0) * var(--depth, 0.5) * 44px),
-    0
-  );
-  will-change: transform;
+  gap: clamp(12px, 1.8vw, 22px);
 }
 
 .grid-tile {
@@ -73,28 +60,29 @@ html {
 }
 
 .grid-tile--light {
-  background: #eaeef4;
+  background: #e9eef4;
   border: 1.5px solid var(--color-line);
   color: var(--color-navy);
 }
 
+/* Softened, subtle accents (not full-saturation). */
 .grid-tile--navy {
-  background: var(--color-navy);
-  color: var(--color-coral);
+  background: #5a6b7e;
+  color: #fff;
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.06) 0 2px,
-    transparent 2px 7px
+    rgba(255, 255, 255, 0.05) 0 2px,
+    transparent 2px 8px
   );
 }
 
 .grid-tile--coral {
-  background: var(--color-coral);
+  background: #ec9580;
   color: #fff;
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(0, 0, 0, 0.07) 0 2px,
-    transparent 2px 7px
+    rgba(0, 0, 0, 0.05) 0 2px,
+    transparent 2px 8px
   );
 }
 
@@ -112,7 +100,17 @@ html {
   text-transform: uppercase;
   text-align: center;
   padding: 5px;
-  word-break: break-word;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.grid-tile__label--sm {
+  font-size: clamp(10px, 1.2vw, 15px);
+}
+
+.grid-tile__label--xs {
+  font-size: clamp(8px, 1vw, 12px);
+  line-height: 1.05;
 }
 
 .grid-tile svg {
@@ -162,9 +160,6 @@ html {
 
 @media (prefers-reduced-motion: reduce) {
   .grid-plane {
-    transform: rotateX(var(--floor-tilt, 50deg));
-  }
-  .grid-row {
     transform: none;
   }
 }

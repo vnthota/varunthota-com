@@ -42,6 +42,9 @@ export default function Page() {
     }
   }
 
+  const fieldClass =
+    "font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted focus:outline-none focus:border-ink focus-visible:ring-2 focus-visible:ring-coral/70 w-full";
+
   return (
     <>
       <GridBackground />
@@ -56,20 +59,17 @@ export default function Page() {
             Product Design&nbsp;&nbsp;·&nbsp;&nbsp;Photography
           </p>
 
-          <span
-            className="font-sans text-xs tracking-[0.22em] uppercase"
-            style={{ color: "color-mix(in srgb, var(--color-muted) 65%, transparent)" }}
-          >
+          <span className="font-sans text-muted text-xs tracking-[0.22em] uppercase">
             Coming soon
           </span>
 
-          <div className="flex gap-5 mt-1">
+          <nav aria-label="Social links" className="flex gap-5 mt-1">
             <a
               href="https://www.linkedin.com/in/vnthota/"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn"
-              className="text-muted hover:text-ink transition-colors p-2 -m-2"
+              aria-label="LinkedIn (opens in a new tab)"
+              className="text-muted hover:text-ink transition-colors p-2 -m-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/70"
             >
               <LinkedInIcon />
             </a>
@@ -77,57 +77,60 @@ export default function Page() {
               href="https://www.instagram.com/vnthota"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="text-muted hover:text-ink transition-colors p-2 -m-2"
+              aria-label="Instagram (opens in a new tab)"
+              className="text-muted hover:text-ink transition-colors p-2 -m-2 rounded focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/70"
             >
               <InstagramIcon />
             </a>
-          </div>
+          </nav>
 
           <div className="w-full mt-6 text-left">
-            <p className="font-sans text-muted text-xs tracking-[0.18em] uppercase mb-4 text-center">
+            <h2 className="font-sans text-muted text-xs tracking-[0.18em] uppercase mb-4 text-center">
               Get in touch
-            </p>
+            </h2>
 
             {status === "success" ? (
-              <p className="font-sans text-sm text-muted text-center">
+              <p className="font-sans text-sm text-muted text-center" role="status">
                 Thanks — I&apos;ll be in touch.
               </p>
             ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
+              <form onSubmit={handleSubmit} aria-label="Get in touch" className="flex flex-col gap-3">
                 <input
                   name="name"
                   type="text"
+                  aria-label="Name"
+                  autoComplete="name"
                   placeholder="Name"
                   required
-                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full"
+                  className={fieldClass}
                 />
                 <input
                   name="email"
                   type="email"
+                  aria-label="Email"
+                  autoComplete="email"
                   placeholder="Email"
                   required
-                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full"
+                  className={fieldClass}
                 />
                 <textarea
                   name="message"
+                  aria-label="Message"
                   placeholder="Message"
                   required
                   rows={4}
-                  className="font-sans text-sm text-ink bg-bg/85 border border-muted/40 rounded px-4 py-3 placeholder:text-muted/60 focus:outline-none focus:border-muted w-full resize-none"
+                  className={`${fieldClass} resize-none`}
                 />
                 <button
                   type="submit"
+                  aria-label="Send message"
                   disabled={status === "loading"}
-                  className="font-sans text-xs tracking-[0.18em] uppercase text-muted border border-muted/30 rounded px-6 py-3 hover:border-muted hover:text-ink transition-colors disabled:opacity-40 w-full cursor-pointer"
+                  className="font-sans text-xs tracking-[0.18em] uppercase text-muted border border-muted/40 rounded px-6 py-3 hover:border-ink hover:text-ink transition-colors disabled:opacity-40 w-full cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-coral/70"
                 >
                   {status === "loading" ? "Sending…" : "Send"}
                 </button>
                 {status === "error" && (
-                  <p
-                    className="font-sans text-xs text-center"
-                    style={{ color: "color-mix(in srgb, var(--color-muted) 65%, transparent)" }}
-                  >
+                  <p className="font-sans text-xs text-center text-muted" role="alert">
                     Something went wrong — try again.
                   </p>
                 )}

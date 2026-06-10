@@ -1,18 +1,25 @@
 "use client";
 
 import { useRef, type CSSProperties } from "react";
-import { ROWS } from "./grid-data";
+import { buildGrid } from "./grid-data";
 import { SketchDefs, SketchIcon } from "./SketchIcons";
 import { useParallax } from "./useParallax";
 
-// Front rows drift more than back rows → diorama depth.
-function depthFor(i: number, n: number): string {
-  return (0.2 + (i / (n - 1)) * 0.8).toFixed(3);
-}
+// Wide field so the grid fills the viewport edge-to-edge. Deterministic.
+const COLS = 16;
+const ROWS_N = 10;
+const ROWS = buildGrid(COLS, ROWS_N, 7);
 
 // Deterministic small rotation (SSR-safe — no Math.random at render).
 function rotFor(seed: number): number {
   return ((seed * 137) % 7) - 3; // -3..3 deg
+}
+
+function labelSizeClass(value: string): string {
+  const len = value.replace(/\s/g, "").length;
+  if (len > 8) return " grid-tile__label--xs";
+  if (len > 6) return " grid-tile__label--sm";
+  return "";
 }
 
 export default function GridBackground() {
@@ -25,11 +32,7 @@ export default function GridBackground() {
         <SketchDefs />
         <div className="grid-plane">
           {ROWS.map((row, ri) => (
-            <div
-              key={ri}
-              className="grid-row"
-              style={{ "--depth": depthFor(ri, ROWS.length) } as CSSProperties}
-            >
+            <div key={ri} className="grid-row">
               {row.map((cell, ci) => {
                 if (cell.kind === "empty") {
                   return <div key={ci} className="grid-tile grid-tile--empty" />;
@@ -38,10 +41,12 @@ export default function GridBackground() {
                   <div
                     key={ci}
                     className={`grid-tile grid-tile--${cell.variant}`}
-                    style={{ "--r": `${rotFor(ri * 7 + ci)}deg` } as CSSProperties}
+                    style={{ "--r": `${rotFor(ri * COLS + ci)}deg` } as CSSProperties}
                   >
                     {cell.kind === "label" ? (
-                      <span className="grid-tile__label">{cell.value}</span>
+                      <span className={`grid-tile__label${labelSizeClass(cell.value)}`}>
+                        {cell.value}
+                      </span>
                     ) : (
                       <SketchIcon name={cell.value} />
                     )}
