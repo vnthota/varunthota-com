@@ -3,11 +3,11 @@
 import { useRef, type CSSProperties } from "react";
 import { buildGrid } from "./grid-data";
 import { SketchDefs, SketchIcon } from "./SketchIcons";
-import { useParallax } from "./useParallax";
+import { useProximity } from "./useProximity";
 
 // Wide field so the grid fills the viewport edge-to-edge. Deterministic.
-const COLS = 16;
-const ROWS_N = 10;
+const COLS = 20;
+const ROWS_N = 12;
 const ROWS = buildGrid(COLS, ROWS_N, 7);
 
 // Deterministic small rotation (SSR-safe — no Math.random at render).
@@ -24,7 +24,7 @@ function labelSizeClass(value: string): string {
 
 export default function GridBackground() {
   const sceneRef = useRef<HTMLDivElement>(null);
-  useParallax(sceneRef);
+  useProximity(sceneRef);
 
   return (
     <>

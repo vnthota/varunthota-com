@@ -53,12 +53,9 @@ export function buildGrid(cols: number, rows: number, seed = 7): Cell[][] {
   for (let r = 0; r < rows; r++) {
     const row: Cell[] = [];
     for (let c = 0; c < cols; c++) {
-      if (rnd() < 0.08) {
-        row.push({ kind: "empty" });
-        continue;
-      }
-      // ~1 in 5 tiles is an accent, spread evenly on a diagonal, colour
-      // alternated by checker parity to avoid same-colour runs.
+      // Every cell is filled (no gaps). ~1 in 5 tiles is an accent, spread
+      // evenly on a diagonal, colour alternated by checker parity to avoid
+      // same-colour runs.
       const isAccent = (c * 2 + r) % 5 === 0;
       const variant: TileVariant = isAccent ? ((c + r) % 2 === 0 ? "coral" : "navy") : "light";
 
